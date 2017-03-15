@@ -1,0 +1,179 @@
+/* CSS Styling of the game. Generic and tag specific styling listed first */
+* {
+	margin: 0;
+	padding: 0;
+}
+h1, h2, h3, h4 {
+	font-family: "Franklin Gothic Heavy", Impact, "Arial Black", sans-serif;
+}
+
+body {
+	font-family: "Franklin Gothic Heavy", Impact, "Arial Black", sans-serif;
+	background-color: beige;
+	color: black;
+}
+main.gameMain {
+    display: flex;
+	margin: 0 24px;
+}
+main.indexMain div {
+	margin: 24px;
+}
+header {
+	margin: 12px 24px;
+	background-color: inherit;
+	color: white;
+	font-size: 1.5em;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+	text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+}
+input {
+	height: 54px;
+	font-size: 1.25em;
+}
+button {
+	height: 32px;
+	width: 72px;
+}
+footer {
+	font-family: Rockwell, Cambria, "Times New Roman", serif;
+	text-align: left;
+	font-size: .8em;
+	margin: 12px 24px;
+	width: 1024px;
+}
+.red {
+	color: red;
+}
+.title {
+	margin: 0 auto 0;
+}
+.std_text {
+	font-family: Rockwell, Cambria, "Times New Roman", serif;
+	margin: 6px 0;
+	font-size: 1.05em;
+}
+/* Styling for all elements on left side of the game */
+.left {
+    border: 1px solid black;
+    width: 720px;
+	background-color: white;
+	color: black;
+}
+.display {
+	position: relative;
+    /*border: 1px solid black;*/
+    height: 760px;
+}
+.display .title {
+	margin: 12px 20px;
+}
+.map {
+	position: absolute;
+	top: 80px;
+	left: 40px;
+	width: 640px;
+    height: 640px;
+}
+.map_wrapper {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.map_wrapper #stage {
+	position: relative;
+}
+/* Specific styles for map cells to distinguish when occupied. */
+.map_cell {
+	position: absolute;
+	width: 64px;
+	height: 64px;
+}
+
+section.dialog {
+    height: 120px;
+	margin: 0 12px;
+}
+section .statOutput {
+	display: flex;
+	justify-content: center;
+}
+section .statOutput p {
+	margin: 0 24px 12px 12px;
+	color: red;
+	background-color: inherit;
+}
+
+.controls {
+	border-top: 1px solid grey;
+	display: flex;
+    height: 200px;
+}
+.input_box {
+	width: 560px;
+	margin: 0 12px 0 12px;
+}
+.input_title {
+	margin: 8px 0 18px 0;
+}
+.btn_array {
+	margin: 16px 0;
+}
+.arrow_box {
+	margin: auto;
+	width: 240px;
+}
+.ew_arrows {
+	display: flex;
+}
+.arrows {
+    font-size: 18px;
+    margin: auto;
+    text-align: center;
+	height: 60px;
+	width: 54px;
+}
+/* Styling for all elements on the right side of the game */
+.right {
+    border: 1px solid black;
+    width: 304px;
+	background-color: white;
+	color: black;
+}
+.history {
+    height: 1068px;
+	margin: 12px 0 0 12px;
+}
+.historyWrapper {
+	height: 1060px;
+	overflow: scroll;
+}
+/*Styling for game images*/
+.pirate {
+	background: url(../_images/pirate512.png) center/64px no-repeat;
+}
+.ship {
+	background: url(../_images/ship256.png) center/64px no-repeat;
+}
+.monster {
+	background: url(../_images/monster256.png) center/64px no-repeat;
+}
+.island {
+	background: url(../_images/island512.png) center/64px no-repeat;
+}
+.food {
+	background: url(../_images/islandFood.png) center/64px no-repeat;
+}
+.home {
+	background: url(../_images/islandPort.png) center/64px no-repeat;
+}
+.mapImage {
+	background: url(../_images/backgroundWaterAnimate.gif) center/640px no-repeat;
+}
