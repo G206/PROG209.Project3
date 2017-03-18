@@ -111,6 +111,8 @@ var gameVar = {
     messageEnd: document.getElementById('splashMessageEnd'),
     buttonStart: document.getElementById('btnStart'),
     buttonAudio: document.getElementById('btnAudio'),
+    // ID to control animation
+    gameAnimation: null,
     audioPlay: true,
     // Game Time
     gameTime: 20,
@@ -146,7 +148,7 @@ var gameVar = {
 function checkTile(row, col, tileContent) {
     var mapTile = map[row][col];
     var notEmpty = true;
-    console.log("Row & Col Parameter Passed In: " + row + " " + col + ". Content Parameter Tested: " + tileContent + ". Map Tile Content: " + mapTile);
+    console.log("checkTile Function. Row & Col Parameter Passed In: " + row + " " + col + ". Content Parameter Tested: " + tileContent + ". Map Tile Content: " + mapTile);
 
     if (mapTile == tileContent) {
         notEmpty = false;
@@ -155,6 +157,7 @@ function checkTile(row, col, tileContent) {
 }
 // Function when level is completed
 function levelComplete() {
+    console.log("level Complete Function.");
     var buttonStartLevel = document.getElementById('btnStartLevel');
 
     gameVar.screenLevel.style.display = 'block';
@@ -231,8 +234,9 @@ window.addEventListener("keyup", function(event)
 
 function update()
 {
-  //The animation loop
-  requestAnimationFrame(update, canvas);
+    console.log("update Function");
+  //The animation loop - ID Created to control Start / Stop
+  gameVar.gameAnimation = requestAnimationFrame(update, canvas);
 
   //Change what the game is doing based on the game state
   switch(gameState)
@@ -264,6 +268,8 @@ function update()
 
 function loadHandler()
 {
+    console.log("loadHandler Function");
+
   assetsLoaded++;
   if(assetsLoaded === assetsToLoad.length)
   {
@@ -276,6 +282,7 @@ function loadHandler()
 
 function buildMap(levelMap)
 {
+    console.log("buildMap Function");
   for(var row = 0; row < ROWS; row++)
   {
     for(var column = 0; column < COLUMNS; column++)
@@ -350,6 +357,7 @@ function buildMap(levelMap)
 }
 // Function to create objects that are required before the main Map Build
 function createFirstObjects() {
+    console.log("createFirstObjects Function");
     // Sprite Exit Block Object
       gameVar.exitBLOCK = Object.create(spriteObject);
       gameVar.exitBLOCK.sourceX = 128;
@@ -375,6 +383,7 @@ function createFirstObjects() {
 
 function createOtherObjects()
 {
+    console.log("createOtherObjects Function");
   timeDisplay = Object.create(spriteObject);
   timeDisplay.sourceX = 0;
   timeDisplay.sourceY = 128;
@@ -432,6 +441,7 @@ function createOtherObjects()
 
 function playGame()
 {
+    console.log("playGame Function");
   //Up
   if(moveUp && !moveDown)
   {
@@ -583,9 +593,10 @@ function playGame()
 
 function endGame()
 {
+    cancelAnimationFrame(gameVar.gameAnimation);
     gameTimer.stop();
     gameVar.currentLevel++;
-    console.log("Current Game Level after + 1: " + gameVar.currentLevel);
+    console.log("endGame Function: Current Game Level after + 1: " + gameVar.currentLevel);
     if (gameVar.currentLevel <= gameVar.maxLevel) {
         levelComplete();
     }
@@ -606,6 +617,7 @@ function endGame()
 
 function render()
 {
+    // console.log("render Function");
   drawingSurface.clearRect(0, 0, canvas.width, canvas.height);
 
   //Display the sprites
@@ -646,6 +658,7 @@ function render()
 }
 // Function to play/stop audio file
 function playAudio() {
+    console.log("playAudio Function");
 	var audio = document.getElementById("audio");
 
     if (gameVar.audioPlay) {
@@ -665,6 +678,7 @@ function playAudio() {
 
 // Function to initialize Game
 function startGame() {
+    console.log("startGame Function");
     gameVar.screenStart.style.display='none';
     gameVar.screenLevel.style.display='none';
     gameVar.screenGame.style.display='block';
