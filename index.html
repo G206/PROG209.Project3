@@ -7,15 +7,45 @@
     <link rel="styleSheet" type="text/css" href="_css/master.css">
 </head>
 <body>
-    <header>
-		<h1>Stayin Alive</h1>
-        <audio id="audio" src="_assets/stayinAlive.mp3" ></audio>
-	</header>
-    <!-- The canvas -->
-    <canvas width="768" height="768"></canvas>
+    <div id="splashStart" class="splash">
+        <h1>Stayin Alive</h1>
+        <h2>Welcome to the Stayin Alive Game</h2>
+        <h3>
+            Collect all diamonds on the game grid. Every diamond will give you one extra second. Once you have collected diamonds,
+            a KEY will appear on the map. Grab the KEY. Once you grab the KEY, an EXIT
+            will appear. Head out to the EXIT. But hurry, you only have 20 seconds to
+            get out or you will DIE! At Every Level increase, speed gets faster and less starting time is provided.
+        </h3>
+        <input id="btnStart" type="button" value="START GAME" />
+    </div>
+    <div id="splashLevel" class="splash">
+        <h1>Stayin Alive</h1>
+        <h2>Next Level - Remember Game is FASTER and LESS TIME Available</h2>
+        <input id="btnStartLevel" type="button" value="Start Next Level" />
+    </div>
+    <div id="splashEnd" class="splash">
+        <h1>Stayin Alive</h1>
+        <h2>Game OVER</h2>
+        <h3 id="splashMessageEnd">
 
-<!--	Footer Copyright-->
-    <footer>Copyright &copy; Gabe</footer>
+        </h3>
+    </div>
+    <div id="game">
+        <header>
+    		<h1>Stayin Alive</h1>
+            <h2 id="gameLevel">Level 1</h2>
+            <audio id="audio" src="_assets/stayinAlive.mp3" ></audio>
+    	</header>
+        <!-- The canvas -->
+        <canvas width="768" height="768"></canvas>
+        <div>
+            <input id="btnAudio" type="button" value="Stop/Start Music" />
+        </div>
+
+    <!--	Footer Copyright-->
+        <footer>Copyright &copy; Gabe</footer>
+    </div>
+
     <!-- The game code -->
     <script src="_scripts/requestAnimationFramePolyfill.js"></script>
     <script src="_scripts/objects.js"></script>

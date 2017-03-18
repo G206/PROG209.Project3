@@ -1,23 +1,21 @@
 /* CSS Styling of the game. Generic and tag specific styling listed first */
-* {
-	margin: 0;
-	padding: 0;
-}
-h1, h2, h3, h4 {
-	font-family: "Franklin Gothic Heavy", Impact, "Arial Black", sans-serif;
-}
-
 body {
 	font-family: "Franklin Gothic Heavy", Impact, "Arial Black", sans-serif;
 	background-color: beige;
 	color: black;
+	margin: 0;
+	padding: 0;
 }
 
-header {
+h1, h2, h3, h4, input {
+	font-family: "Franklin Gothic Heavy", Impact, "Arial Black", sans-serif;
 	margin: 24px;
+}
+
+h1 {
+	font-size: 4em;
 	background-color: inherit;
 	color: white;
-	font-size: 1.5em;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 	text-shadow:
@@ -26,6 +24,58 @@ header {
       1px -1px 0 #000,
       -1px 1px 0 #000,
        1px 1px 0 #000;
+}
+
+div.splash {
+	position: absolute;
+	top: 64px;
+	left: 64px;
+	width: 640px;
+	border: 1px solid red;
+	background-color: lightgrey;
+	color: black;
+}
+
+div.splash input{
+	width: 216px;
+	height: 48px;
+	margin: 12px 24px;
+	background-color: gold;
+	color: black;
+	font-size: 1.5em;
+	font-weight: bold;
+}
+div[id="splashEnd"]{
+	display: none;
+	top: 256px;
+	left: 128px;
+	width: 448px;
+}
+div[id="splashLevel"]{
+	display: none;
+	top: 256px;
+	left: 128px;
+	width: 448px;
+}
+div[id="game"]{
+	display: none;
+}
+
+div[id="game"] h1{
+	margin: 12px 0 12px 24px;
+}
+div[id="game"] h2{
+	margin: 0 0 12px 72px;
+}
+
+div[id="game"] input{
+	width: 180px;
+	height: 48px;
+	margin: 24px;
+	background-color: gold;
+	color: black;
+	font-size: 1.2em;
+	font-weight: bold;
 }
 
 footer {
