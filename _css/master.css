@@ -36,6 +36,7 @@ div.splash {
 	left: 64px;
 	width: 640px;
 	border: 1px solid red;
+	border-radius: 16px;
 	background-color: darkgray;
 	color: blue;
 }
