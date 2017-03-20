@@ -25,6 +25,10 @@ h1 {
       -1px 1px 0 #000,
        1px 1px 0 #000;
 }
+li {
+	margin: 0 24px 12px 24px;
+	font-size: 1.25em;
+}
 
 div.splash {
 	position: absolute;
@@ -32,8 +36,8 @@ div.splash {
 	left: 64px;
 	width: 640px;
 	border: 1px solid red;
-	background-color: lightgrey;
-	color: black;
+	background-color: darkgray;
+	color: blue;
 }
 
 div.splash input{
@@ -47,7 +51,7 @@ div.splash input{
 }
 div[id="splashLevel"], div[id="splashEnd"]{
 	background-color: darkgray;
-	color: white;
+	color: blue;
 	display: none;
 	top: 256px;
 	left: 128px;
@@ -72,6 +76,7 @@ div[id="game"] h1{
 }
 div[id="game"] h2{
 	margin: 0 0 12px 72px;
+	color: red;
 }
 
 div[id="game"] input{

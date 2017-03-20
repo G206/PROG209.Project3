@@ -360,8 +360,8 @@ function buildMap(levelMap)
             diamond.sourceY = tilesheetY;
             diamond.sourceWidth = 64;
             diamond.sourceHeight = 64;
-            diamond.width = 56;
-            diamond.height = 56;
+            diamond.width = 48;
+            diamond.height = 48;
             diamond.x = column * SIZE + 10;
             diamond.y = row * SIZE + 16;
             diamonds.push(diamond);
