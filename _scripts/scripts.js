@@ -105,9 +105,10 @@ var moveLeft = false;
 var gameVar = {
     // HTML Elements
     screenStart: document.getElementById('splashStart'),
-    screenLevel: document.getElementById('gameLevel'),
+    screenLevel: document.getElementById('splashLevel'),
     screenEnd: document.getElementById('splashEnd'),
     screenGame: document.getElementById('game'),
+    screenGameLevel: document.getElementById('gameLevel'),
     messageEnd: document.getElementById('splashMessageEnd'),
     buttonStart: document.getElementById('btnStart'),
     buttonAudio: document.getElementById('btnAudio'),
@@ -120,7 +121,7 @@ var gameVar = {
     playerSpeed: 4,
     // Variables to track game levels and how many allowed
     currentLevel: 1,
-    maxLevel: 3,
+    maxLevel: 4,
     // Sprite Objects
     exitKEY: null,
     exitBLOCK: null,
@@ -160,12 +161,22 @@ function levelComplete() {
     console.log("level Complete Function.");
     var buttonStartLevel = document.getElementById('btnStartLevel');
 
-    gameVar.screenLevel.style.display = 'block';
-    buttonStartLevel.addEventListener("click", startNew, false);
-    gameVar.screenLevel.textContent = "Level 2";
+    gameTimer.stop();
+    cancelAnimationFrame(gameVar.gameAnimation);
+    gameVar.currentLevel++;
+    console.log("Current Game Level after + 1: " + gameVar.currentLevel);
+    if (gameVar.currentLevel <= gameVar.maxLevel) {
+        gameVar.screenGameLevel.textContent = "LEVEL " + gameVar.currentLevel;
+        gameVar.screenLevel.style.display = 'block';
+        buttonStartLevel.addEventListener("click", startNew, false);
+    } else {
+        endGame();
+    }
 
     // Function to start new level
     function startNew() {
+        // Remove Event listeners
+        buttonStartLevel.removeEventListener("click", startNew, false);
         // Reset variables
         sprites = [];
         messages = [];
@@ -173,17 +184,23 @@ function levelComplete() {
         walls = [];
         diamonds = [];
         diamondsDefused = 0;
+        // Remove Exit Block from old level
+        map[gameVar.exitY][gameVar.exitX] = WALL;
+        // Delete sprite objects
+        gameVar.exitKEY  = null;
+        gameVar.exitBLOCK = null;
         // Change Variable values for new level
         // Game Time
-        console.log("gameVar.gameTime Var: " + gameVar.gameTime + " gameVar.playerSpeed: "+ gameVar.playerSpeed );
         gameVar.gameTime = gameVar.gameTime - 5;
         // Player Speed Variables
-        gameVar.playerSpeed = gameVar.playerSpeed + 1;
+        gameVar.playerSpeed = gameVar.playerSpeed + 2;
+        console.log("gameVar.gameTime Var: " + gameVar.gameTime + " gameVar.playerSpeed: "+ gameVar.playerSpeed );
         gameVar.screenLevel.style.display = 'none';
         gameTimer.reset();
         gameTimer.time = gameVar.gameTime;
         gameTimer.start();
         gameState = BUILD_MAP;
+        update();
     }
 }
 //Add keyboard listeners
@@ -234,7 +251,7 @@ window.addEventListener("keyup", function(event)
 
 function update()
 {
-    console.log("update Function");
+    // console.log("update Function");
   //The animation loop - ID Created to control Start / Stop
   gameVar.gameAnimation = requestAnimationFrame(update, canvas);
 
@@ -358,6 +375,7 @@ function buildMap(levelMap)
 // Function to create objects that are required before the main Map Build
 function createFirstObjects() {
     console.log("createFirstObjects Function");
+
     // Sprite Exit Block Object
       gameVar.exitBLOCK = Object.create(spriteObject);
       gameVar.exitBLOCK.sourceX = 128;
@@ -441,7 +459,7 @@ function createOtherObjects()
 
 function playGame()
 {
-    console.log("playGame Function");
+    // console.log("playGame Function");
   //Up
   if(moveUp && !moveDown)
   {
@@ -517,7 +535,7 @@ function playGame()
         if(hitTestCircle(player, gameVar.exitBLOCK))
         {
             gameVar.exitBLOCK.visible = false;
-            endGame();
+            levelComplete();
         // Change Game State to OVER to Exit or Next Level
         //   gameState = OVER;
         }
@@ -567,9 +585,6 @@ function playGame()
       {
           gameVar.exitKEY.visible = true;
           gameVar.exitBLOCK.visible = true;
-        //Change the game state to OVER if
-        //the player has defused all the diamonds
-        // gameState = OVER;
       }
     }
   }
@@ -593,14 +608,9 @@ function playGame()
 
 function endGame()
 {
-    cancelAnimationFrame(gameVar.gameAnimation);
+    console.log("endGame Function.");
     gameTimer.stop();
-    gameVar.currentLevel++;
-    console.log("endGame Function: Current Game Level after + 1: " + gameVar.currentLevel);
-    if (gameVar.currentLevel <= gameVar.maxLevel) {
-        levelComplete();
-    }
-
+    cancelAnimationFrame(gameVar.gameAnimation);
   if(diamondsDefused === diamonds.length)
   {
       gameVar.messageEnd.textContent = "It appears you have WON. Must be beginner's luck...";
@@ -680,7 +690,7 @@ function playAudio() {
 function startGame() {
     console.log("startGame Function");
     gameVar.screenStart.style.display='none';
-    gameVar.screenLevel.style.display='none';
+    // gameVar.screenLevel.style.display='none';
     gameVar.screenGame.style.display='block';
 
     //The game timer

@@ -15,7 +15,7 @@ h1, h2, h3, h4, input {
 h1 {
 	font-size: 4em;
 	background-color: inherit;
-	color: white;
+	color: red;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 	text-shadow:
@@ -45,13 +45,9 @@ div.splash input{
 	font-size: 1.5em;
 	font-weight: bold;
 }
-div[id="splashEnd"]{
-	display: none;
-	top: 256px;
-	left: 128px;
-	width: 448px;
-}
-div[id="splashLevel"]{
+div[id="splashLevel"], div[id="splashEnd"]{
+	background-color: darkgray;
+	color: white;
 	display: none;
 	top: 256px;
 	left: 128px;
@@ -63,6 +59,16 @@ div[id="game"]{
 
 div[id="game"] h1{
 	margin: 12px 0 12px 24px;
+	background-color: inherit;
+	color: white;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+	text-shadow:
+       3px 3px 0 #000,
+     -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
 }
 div[id="game"] h2{
 	margin: 0 0 12px 72px;
