@@ -1,5 +1,4 @@
 // Javascript File
-// (function(){
 
 //The canvas
 var canvas = document.querySelector("canvas");
@@ -8,35 +7,35 @@ var drawingSurface = canvas.getContext("2d");
 //The game map
 var map =
 [
-  [6,3,3,3,3,6,6,3,3,3,3,6],
-  [3,1,1,1,1,1,1,1,1,1,1,3],
-  [3,1,2,2,2,1,1,2,2,2,1,3],
-  [3,1,1,1,2,2,1,1,1,1,1,3],
-  [3,1,1,1,1,1,1,1,2,1,1,3],
-  [3,1,2,2,2,1,1,2,2,2,1,3],
-  [3,1,1,1,1,1,1,1,2,1,1,3],
-  [3,1,1,1,2,2,2,1,1,1,1,3],
-  [3,1,2,1,1,1,2,1,1,1,1,3],
-  [3,1,2,2,1,1,2,2,2,2,1,3],
-  [3,1,1,1,1,1,1,1,1,1,1,3],
-  [6,3,3,3,3,3,3,3,3,3,3,6]
+  [6,3,3,3,3,3,6,6,3,3,3,3,3,6],
+  [3,1,1,1,1,1,1,1,1,1,1,1,1,3],
+  [3,1,2,2,2,1,1,2,2,2,1,2,1,3],
+  [3,1,1,1,2,2,1,1,1,1,1,2,1,3],
+  [3,1,1,1,1,1,1,1,2,1,1,1,1,3],
+  [3,1,2,2,2,1,1,2,2,2,2,2,1,3],
+  [3,1,1,1,1,1,1,1,2,1,1,1,1,3],
+  [3,1,1,1,2,2,2,1,2,1,2,1,1,3],
+  [3,1,2,1,1,1,2,1,1,1,2,1,1,3],
+  [3,1,2,2,1,1,2,2,2,2,2,2,1,3],
+  [3,1,1,1,1,1,1,1,1,1,1,1,1,3],
+  [6,3,3,3,3,3,3,3,3,3,3,3,3,6]
 ];
 
 //The game objects map
 var gameObjects =
 [
-  [0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,5,0,0],
-  [0,0,0,0,0,5,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,5,0,0,0,0,0,0,5,0,0],
-  [0,0,0,0,0,0,5,0,0,0,0,0],
-  [0,0,0,0,5,0,0,0,0,5,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,5,0,5,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,5,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0]
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,5,0,0,0,0],
+  [0,0,0,0,0,5,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,5,0,0,0,0,0,0,5,0,0,0,0],
+  [0,0,0,0,0,0,5,0,0,0,0,0,0,0],
+  [0,0,0,0,5,0,0,0,0,5,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,5,0,5,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,5,0,0,0,0,0,0,0,0,0,0,0,0],
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 ];
 
 //Map code
@@ -101,7 +100,7 @@ var moveDown = false;
 var moveRight = false;
 var moveLeft = false;
 
-// Custom Game Variables - stored in one object variable
+// Custom Game Variables added to existing code base - stored in one object variable
 var gameVar = {
     // HTML Elements
     screenStart: document.getElementById('splashStart'),
@@ -115,23 +114,25 @@ var gameVar = {
     // ID to control animation
     gameAnimation: null,
     audioPlay: true,
-    // Game Time
-    gameTime: 20,
+    // Game Time & Bonus Time
+    timeGame: 17,
+    timeBonus: 1,
     // Player Speed Variables
     playerSpeed: 4,
-    // Variables to track game levels and how many allowed
+    // Variables to track game levels, how many allowed, and dimonds on the board
     currentLevel: 1,
     maxLevel: 4,
+    maxDiamonds: 14,
     // Sprite Objects
     exitKEY: null,
     exitBLOCK: null,
     // Variables used to randomly place Key and Exit on Map
-    playerY: null,
-    playerX: null,
-    keyY: null,
-    keyX: null,
-    exitY: null,
-    exitX: null,
+    playerROW: null,
+    playerCOL: null,
+    exitCOL: null,
+    exitROW: null,
+    keyROW: null,
+    keyCOL: null,
     // Function to return a random value in a given index
     randomLoc: function (array) {  //Parameter must be an array
         var location = array[Math.floor(Math.random() * array.length)];
@@ -142,29 +143,51 @@ var gameVar = {
         var numBetween = Math.floor(Math.random() * (max-min)) + min;
         return numBetween;
     },
-
+    // Variables to store game map as objects
+    grid: makeArray(ROWS, COLUMNS),
+    mapCell: {
+    	colID: 0,
+    	rowID: 0,
+        mapValue: 0,
+    	occupied: false,
+    },
 };
 
-// Function to check contents of Map tile
+// Code to create 2 dimensional array from stackoverflow.com
+function makeArray (rows, columns)  {
+    this.rows = rows;
+    this.columns = columns;
+    this.myarray = new Array(this.rows);
+    for (var i=0; i < this.columns; i +=1) {
+        this.myarray[i]=new Array(this.rows);
+    }
+    return this.myarray;
+}
+// Function to check contents of Map tile with passed in Parameter
 function checkTile(row, col, tileContent) {
     var mapTile = map[row][col];
     var notEmpty = true;
-    console.log("checkTile Function. Row & Col Parameter Passed In: " + row + " " + col + ". Content Parameter Tested: " + tileContent + ". Map Tile Content: " + mapTile);
+
+        console.log("checkTile Function. Row & Col Parameter Passed In: " + row + " " + col + ". Content Parameter Tested: " + tileContent + ". Map Tile Content: " + mapTile);
 
     if (mapTile == tileContent) {
         notEmpty = false;
     }
     return notEmpty;
 }
-// Function when level is completed
+// Function when current level is completed
 function levelComplete() {
-    console.log("level Complete Function.");
     var buttonStartLevel = document.getElementById('btnStartLevel');
 
+        console.log("level Complete Function.");
+
     gameTimer.stop();
+    // Stop Animation from Running
     cancelAnimationFrame(gameVar.gameAnimation);
+    // Increase Game Level
     gameVar.currentLevel++;
-    console.log("Current Game Level after + 1: " + gameVar.currentLevel);
+        console.log("Current Game Level after + 1: " + gameVar.currentLevel);
+    // Active Level Change Splash Screen
     if (gameVar.currentLevel <= gameVar.maxLevel) {
         gameVar.screenGameLevel.textContent = "LEVEL " + gameVar.currentLevel;
         gameVar.screenLevel.style.display = 'block';
@@ -185,19 +208,21 @@ function levelComplete() {
         diamonds = [];
         diamondsDefused = 0;
         // Remove Exit Block from old level
-        map[gameVar.exitY][gameVar.exitX] = WALL;
+        map[gameVar.exitROW][gameVar.exitCOL] = WALL;
         // Delete sprite objects
         gameVar.exitKEY  = null;
         gameVar.exitBLOCK = null;
         // Change Variable values for new level
         // Game Time
-        gameVar.gameTime = gameVar.gameTime - 5;
+        gameVar.timeGame = gameVar.timeGame - 5;
         // Player Speed Variables
         gameVar.playerSpeed = gameVar.playerSpeed + 2;
-        console.log("gameVar.gameTime Var: " + gameVar.gameTime + " gameVar.playerSpeed: "+ gameVar.playerSpeed );
+
+            console.log("gameVar.timeGame Var: " + gameVar.timeGame + " gameVar.playerSpeed: "+ gameVar.playerSpeed );
+        // Close Splash screen and restart game
         gameVar.screenLevel.style.display = 'none';
         gameTimer.reset();
-        gameTimer.time = gameVar.gameTime;
+        gameTimer.time = gameVar.timeGame;
         gameTimer.start();
         gameState = BUILD_MAP;
         update();
@@ -251,7 +276,7 @@ window.addEventListener("keyup", function(event)
 
 function update()
 {
-    // console.log("update Function");
+// console.log("update Function");
   //The animation loop - ID Created to control Start / Stop
   gameVar.gameAnimation = requestAnimationFrame(update, canvas);
 
@@ -278,7 +303,6 @@ function update()
       endGame();
       break;
   }
-
   //Render the game
   render();
 }
@@ -296,7 +320,7 @@ function loadHandler()
     gameState = BUILD_MAP;
   }
 }
-
+// Function to build game MAP
 function buildMap(levelMap)
 {
     console.log("buildMap Function");
@@ -312,6 +336,7 @@ function buildMap(levelMap)
         var tilesheetX = Math.floor((currentTile - 1) % tilesheetColumns) * SIZE;
         var tilesheetY = Math.floor((currentTile - 1) / tilesheetColumns) * SIZE;
 
+        // Add property to GRID for all objects to determine if Tile is EMPTY
         switch (currentTile)
         {
           case FLOOR:
@@ -321,6 +346,7 @@ function buildMap(levelMap)
             floor.x = column * SIZE;
             floor.y = row * SIZE;
             sprites.push(floor);
+            gameVar.grid[row][column].occupied = false;
             break;
 
           case BOX:
@@ -331,6 +357,7 @@ function buildMap(levelMap)
             box.y = row * SIZE;
             sprites.push(box);
             boxes.push(box);
+            gameVar.grid[row][column].occupied= true;
             break;
 
           case WALL:
@@ -341,6 +368,7 @@ function buildMap(levelMap)
             wall.y = row * SIZE;
             sprites.push(wall);
             walls.push(wall);
+            gameVar.grid[row][column].occupied = true;
             break;
 
             // Special Wall Object to restrict placement of exit block
@@ -352,21 +380,8 @@ function buildMap(levelMap)
               wall_block.y = row * SIZE;
               sprites.push(wall_block);
               walls.push(wall_block);
+              gameVar.grid[row][column].occupied = true;
               break;
-
-          case DIAMOND:
-            var diamond = Object.create(spriteObject);
-            diamond.sourceX = tilesheetX;
-            diamond.sourceY = tilesheetY;
-            diamond.sourceWidth = 64;
-            diamond.sourceHeight = 64;
-            diamond.width = 48;
-            diamond.height = 48;
-            diamond.x = column * SIZE + 10;
-            diamond.y = row * SIZE + 16;
-            diamonds.push(diamond);
-            sprites.push(diamond);
-            break;
         }
       }
     }
@@ -384,50 +399,66 @@ function createFirstObjects() {
       gameVar.exitBLOCK.sourceHeight = 64;
       gameVar.exitBLOCK.width = SIZE;
       gameVar.exitBLOCK.height = SIZE;
-      // debugger;
+
       // Randomly choose the X and Y for the Exit Block - Restricts placement on timer or corners
       do {
-          gameVar.exitY = gameVar.randomBetween(0,ROWS);
-          gameVar.exitX = gameVar.randomBetween(0,COLUMNS);
-      } while (checkTile(gameVar.exitY, gameVar.exitX, WALL));
-
-      gameVar.exitBLOCK.x = gameVar.exitX * SIZE;
-      gameVar.exitBLOCK.y = gameVar.exitY * SIZE;
+          gameVar.exitROW = gameVar.randomBetween(0,ROWS);
+          gameVar.exitCOL = gameVar.randomBetween(0,COLUMNS);
+            console.log("do while exit BLOCK loop. Row & Col Parameter Passed In: " + gameVar.exitROW + " " + gameVar.exitCOL + ". Occupied value: " + gameVar.grid[gameVar.exitROW][gameVar.exitCOL].occupied);
+      } while (checkTile(gameVar.exitROW, gameVar.exitCOL, WALL));
+      // Position Sprite on EMPTY tile
+      gameVar.exitBLOCK.x = gameVar.exitCOL * SIZE;
+      gameVar.exitBLOCK.y = gameVar.exitROW * SIZE;
       gameVar.exitBLOCK.visible = true;
-      gameVar.exitBLOCK.key = false;
-      map[gameVar.exitY][gameVar.exitX] = WALL_EXIT;
+      map[gameVar.exitROW][gameVar.exitCOL] = WALL_EXIT;
+      gameVar.grid[gameVar.exitROW][gameVar.exitCOL].occupied = true;
       sprites.push(gameVar.exitBLOCK);
 }
 
 function createOtherObjects()
 {
     console.log("createOtherObjects Function");
-  timeDisplay = Object.create(spriteObject);
-  timeDisplay.sourceX = 0;
-  timeDisplay.sourceY = 128;
-  timeDisplay.sourceWidth = 128;
-  timeDisplay.sourceHeight = 64;
-  timeDisplay.width = 128;
-  timeDisplay.height = 64;
-  timeDisplay.x = canvas.width / 2 - timeDisplay.width / 2;
-  timeDisplay.y = 0;
-  sprites.push(timeDisplay);
+// Variables for only this function
+    var countDiamonds = 0;
+    var diamondROW;
+    var diamondCOL;
 
-// Game Player Object. Randomly placed
-    player = Object.create(spriteObject);
-    player.sourceX = 192;
-    player.sourceY = 0;
-    player.width = 48;
-    player.height = 48;
-    // Randomly choose the X and Y for the Player - Restricts placement to only FLOOR
+    timeDisplay = Object.create(spriteObject);
+    timeDisplay.sourceX = 0;
+    timeDisplay.sourceY = 128;
+    timeDisplay.sourceWidth = 128;
+    timeDisplay.sourceHeight = 64;
+    timeDisplay.width = 128;
+    timeDisplay.height = 64;
+    timeDisplay.x = canvas.width / 2 - timeDisplay.width / 2;
+    timeDisplay.y = 0;
+    sprites.push(timeDisplay);
+
+// Create diamonds upto max limit
     do {
-        gameVar.playerY = gameVar.randomBetween(0,ROWS);
-        gameVar.playerX = gameVar.randomBetween(0,COLUMNS);
-    } while (checkTile(gameVar.playerY, gameVar.playerX, FLOOR));
-    player.x = gameVar.playerX * SIZE;
-    player.y = gameVar.playerY * SIZE;
-    player.key = false;     // Variable to store if carrying Key;
-    sprites.push(player);
+        var diamond = Object.create(spriteObject);
+        diamond.sourceX = 0;
+        diamond.sourceY = 64;
+        diamond.sourceWidth = 64;
+        diamond.sourceHeight = 64;
+        diamond.width = 48;
+        diamond.height = 48;
+    // Randomly Place diamonds
+        do {
+            diamondROW = gameVar.randomBetween(0,ROWS);
+            diamondCOL = gameVar.randomBetween(0,COLUMNS);
+                console.log("do while exit Diamond loop. Row & Col Parameter Passed In: " + diamondROW + " " + diamondCOL + ". Occupied value: " + gameVar.grid[diamondROW][diamondCOL].occupied);
+
+        } while (gameVar.grid[diamondROW][diamondCOL].occupied);
+         // Position Sprite on EMPTY tile
+        diamond.x = diamondCOL * SIZE + 8;
+        diamond.y = diamondROW * SIZE + 8;
+        console.log("Placed Diamond at ");
+        diamonds.push(diamond);
+        sprites.push(diamond);
+        gameVar.grid[diamondROW][diamondCOL].occupied = true;
+        countDiamonds ++;
+    } while (countDiamonds < gameVar.maxDiamonds);
 
   //Sprite Key Object
   gameVar.exitKEY = Object.create(spriteObject);
@@ -439,22 +470,44 @@ function createOtherObjects()
   gameVar.exitKEY.height = SIZE;
   // Randomly choose the X and Y for the Key - Restricts placement to only FLOOR
   do {
-      gameVar.keyY = gameVar.randomBetween(0,ROWS);
-      gameVar.keyX = gameVar.randomBetween(0,COLUMNS);
-  } while (checkTile(gameVar.keyY, gameVar.keyX, FLOOR));
+      gameVar.keyROW = gameVar.randomBetween(0,ROWS);
+      gameVar.keyCOL = gameVar.randomBetween(0,COLUMNS);
+      console.log("do while exit Key loop. Row & Col Parameter Passed In: " + gameVar.keyROW + " " + gameVar.keyCOL + ". Occupied value: " + gameVar.grid[gameVar.keyROW][gameVar.keyCOL].occupied);
 
-  gameVar.exitKEY.x = gameVar.keyX * SIZE;
-  gameVar.exitKEY.y = gameVar.keyY * SIZE;
+  } while (gameVar.grid[gameVar.keyROW][gameVar.keyCOL].occupied);
+   // Position Sprite on EMPTY tile
+  gameVar.grid[gameVar.keyROW][gameVar.keyCOL].occupied = true;
+  gameVar.exitKEY.x = gameVar.keyCOL * SIZE;
+  gameVar.exitKEY.y = gameVar.keyROW * SIZE;
   gameVar.exitKEY.visible = false;
   sprites.push(gameVar.exitKEY);
 
+  // Coundown Timer Display
   timerMessage = Object.create(messageObject);
-  timerMessage.x = 363;
+  timerMessage.x = 428;
   timerMessage.y = 10;
   timerMessage.font = "bold 40px Helvetica";
   timerMessage.fillStyle = "white";
   timerMessage.text = "";
   messages.push(timerMessage);
+
+  // Game Player Object. Randomly placed
+      player = Object.create(spriteObject);
+      player.sourceX = 192;
+      player.sourceY = 0;
+      player.width = 48;
+      player.height = 48;
+      // Randomly choose the X and Y for the Player - Restricts placement to only FLOOR
+      do {
+          gameVar.playerROW = gameVar.randomBetween(0,ROWS);
+          gameVar.playerCOL = gameVar.randomBetween(0,COLUMNS);
+          console.log("do while PLAYER loop. Row & Col Parameter Passed In: " + gameVar.playerROW + " " + gameVar.playerCOL + ". Occupied value: " + gameVar.grid[gameVar.playerROW][gameVar.playerCOL].occupied);
+      } while (gameVar.grid[gameVar.playerROW][gameVar.playerCOL].occupied);
+      // Position Sprite on EMPTY tile
+      player.x = gameVar.playerCOL * SIZE + 8;
+      player.y = gameVar.playerROW * SIZE + 8;
+      player.key = false;     // Variable to store if carrying Key;
+      sprites.push(player);
 }
 
 function playGame()
@@ -532,12 +585,11 @@ function playGame()
         player.y = canvas.height - player.height;
       }
       // Collision with Exit BLOCK
-        if(hitTestCircle(player, gameVar.exitBLOCK))
+        if(hitTestCircle(player, gameVar.exitBLOCK) &&  player.key)
         {
             gameVar.exitBLOCK.visible = false;
             levelComplete();
-        // Change Game State to OVER to Exit or Next Level
-        //   gameState = OVER;
+
         }
         // Collisions with WALLS
         for(var i = 0; i < walls.length; i++)
@@ -545,7 +597,6 @@ function playGame()
           blockRectangle(player, walls[i]);
         }
   }
-
   //Alternatively, move the player and set its screen boundaries at the same time with this code:
   //player.x = Math.max(64, Math.min(player.x + player.vx, canvas.width - player.width - 64));
   //player.y = Math.max(64, Math.min(player.y + player.vy, canvas.height - player.height - 64));
@@ -579,8 +630,8 @@ function playGame()
     {
       diamond.visible = false;
       diamondsDefused++;
-      gameTimer.time ++;
-      console.log("Total Diamonds / Dimond Captured: " + diamonds.length + " / " + diamondsDefused );
+      gameTimer.time = gameTimer.time + gameVar.timeBonus;
+        console.log("Total Diamonds / Dimond Captured: " + diamonds.length + " / " + diamondsDefused );
       if(diamondsDefused === diamonds.length)
       {
           gameVar.exitKEY.visible = true;
@@ -608,7 +659,7 @@ function playGame()
 
 function endGame()
 {
-    console.log("endGame Function.");
+        console.log("endGame Function.");
     gameTimer.stop();
     cancelAnimationFrame(gameVar.gameAnimation);
   if(diamondsDefused === diamonds.length)
@@ -689,16 +740,26 @@ function playAudio() {
 // Function to initialize Game
 function startGame() {
     console.log("startGame Function");
+    // Initialize Grid Variable
+    for (i=0; i<ROWS; i++){
+		for (j=0; j<COLUMNS; j++) {
+			gameVar.grid[i][j] = Object.create(gameVar.mapCell);
+            gameVar.grid[i][j].rowID = i;
+			gameVar.grid[i][j].colID = j;
+			gameVar.grid[i][j].value = map[i][j];
+		}
+	}
+    //Remove Event listeners
+    gameVar.buttonStart.removeEventListener("click", startGame, false);
+    // Close Start Splash screen and start Game Screen
     gameVar.screenStart.style.display='none';
-    // gameVar.screenLevel.style.display='none';
     gameVar.screenGame.style.display='block';
 
     //The game timer
-    gameTimer.time = gameVar.gameTime;
+    gameTimer.time = gameVar.timeGame;
     gameTimer.start();
     //Start the game animation loop
     update();
-
 }
 
 // Play Background Music at game start
@@ -707,5 +768,3 @@ playAudio();
 // Event listeners
 gameVar.buttonAudio.addEventListener("click", playAudio, false);
 gameVar.buttonStart.addEventListener("click", startGame, false);
-
-// }());

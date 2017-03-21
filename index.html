@@ -3,16 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>Project 3 - Stayin Alive Maze Game</title>
-    <!-- Library for the Arrows in the game -->
+
     <link rel="styleSheet" type="text/css" href="_css/master.css">
 </head>
 <body>
+    <!-- Splash Screen for Start of Game -->
     <div id="splashStart" class="splash">
         <h1>Stayin Alive</h1>
         <h2>Welcome to the Stayin Alive Game</h2>
         <ol>
             <li>
-                Collect all diamonds on the game grid. Every diamond collected will give you one extra second of game time.
+                Collect all diamonds on the game grid. Every diamond collected will give you ONE EXTRA second of game time.
             </li>
             <li>
                 Once you have collected all diamonds,  a KEY will appear randomly on the map.
@@ -21,14 +22,16 @@
                 Grab the KEY. An EXIT will appear randomly.
             </li>
             <li>
-                Head to the EXIT. But hurry, you only have 20 seconds to get out or you will DIE!
+                Head to the EXIT. But hurry, you only have 17 seconds initially to get out or you will DIE!
             </li>
            <li>
-               At Every Level increase, speed INCREASES and LESS starting time is provided.
+               At Every Level increase, speed INCREASES and 5 seconds is reduced from the starting time.
            </li>
         </ol>
         <input id="btnStart" type="button" value="START GAME" />
     </div>
+
+    <!-- Splash Screen for Level Change -->
     <div id="splashLevel" class="splash">
         <h1>Stayin Alive</h1>
         <h2>NEXT LEVEL</h2>
@@ -37,34 +40,38 @@
                 Player Speed is FASTER
             </li>
             <li>
-                LESS TIME Available to complete collecting all diamonds
+                5 Seconds will be REDUCED from your starting time to complete collecting all diamonds
             </li>
             <li>
                 Your starting location, key location, and exit location will be RANDOM at every level.
             </li>
         </ol>
-
         <input id="btnStartLevel" type="button" value="Start Next Level" />
     </div>
+
+    <!-- Splash Screen for END -->
     <div id="splashEnd" class="splash">
         <h1>Stayin Alive</h1>
         <h2>Game OVER</h2>
         <h3 id="splashMessageEnd">
-
         </h3>
     </div>
+
+    <!-- GAME Elements -->
     <div id="game">
         <header>
     		<h1>Stayin Alive</h1>
             <h2 id="gameLevel">LEVEL 1</h2>
-            <audio id="audio" src="_assets/stayinAlive.mp3" ></audio>
     	</header>
-        <!-- The canvas -->
-        <canvas width="768" height="768"></canvas>
+        <div class="gameWindow">
+            <!-- The canvas -->
+            <canvas width="896" height="768"></canvas>
+        </div>
+        <!-- Audio Components -->
         <div>
+            <audio id="audio" src="_assets/stayinAlive.mp3" ></audio>
             <input id="btnAudio" type="button" value="Stop/Start Music" />
         </div>
-
     <!--	Footer Copyright-->
         <footer>Copyright &copy; Gabe</footer>
     </div>

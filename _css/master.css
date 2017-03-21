@@ -6,12 +6,10 @@ body {
 	margin: 0;
 	padding: 0;
 }
-
 h1, h2, h3, h4, input {
 	font-family: "Franklin Gothic Heavy", Impact, "Arial Black", sans-serif;
 	margin: 24px;
 }
-
 h1 {
 	font-size: 4em;
 	background-color: inherit;
@@ -29,7 +27,7 @@ li {
 	margin: 0 24px 12px 24px;
 	font-size: 1.25em;
 }
-
+/*Splash Screen Styling*/
 div.splash {
 	position: absolute;
 	top: 64px;
@@ -54,15 +52,19 @@ div[id="splashLevel"], div[id="splashEnd"]{
 	background-color: darkgray;
 	color: blue;
 	display: none;
-	top: 256px;
+	top: 224px;
 	left: 128px;
 	width: 448px;
 }
+/*Game Screen Styling*/
 div[id="game"]{
 	display: none;
 }
-
+div[id="game"] header{
+	width: 896px;
+}
 div[id="game"] h1{
+	float: left;
 	margin: 12px 0 12px 24px;
 	background-color: inherit;
 	color: white;
@@ -76,10 +78,13 @@ div[id="game"] h1{
        1px 1px 0 #000;
 }
 div[id="game"] h2{
-	margin: 0 0 12px 72px;
+	float: right;
+	margin: 48px 64px 12px;
 	color: red;
 }
-
+div[id="game"] .gameWindow{
+	clear: both;
+}
 div[id="game"] input{
 	width: 180px;
 	height: 48px;
@@ -89,7 +94,7 @@ div[id="game"] input{
 	font-size: 1.2em;
 	font-weight: bold;
 }
-
+/*Footer Stying*/
 footer {
 	font-family: Rockwell, Cambria, "Times New Roman", serif;
 	text-align: center;
