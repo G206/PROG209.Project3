@@ -1,4 +1,5 @@
 // Javascript File
+// jshint esversion: 6
 
 //The canvas
 var canvas = document.querySelector("canvas");
@@ -60,6 +61,7 @@ var tilesheetColumns = 4;
 
 //Sprites we need to access by name
 var player = null;
+var enemy1 = null;
 var timeDisplay = null;
 var timerMessage = null;
 
@@ -73,10 +75,10 @@ var assetsToLoad = [];
 var assetsLoaded = 0;
 
 //Load the tilesheet image
-var image = new Image();
-image.addEventListener("load", loadHandler, false);
-image.src = "_images/mazeEscape1.png";
-assetsToLoad.push(image);
+var image1 = new Image();
+image1.addEventListener("load", loadHandler, false);
+image1.src = "_images/mazeEscapeCombine.png";
+assetsToLoad.push(image1);
 
 //Game variables
 var diamondsDefused = 0;
@@ -126,9 +128,12 @@ var gameVar = {
     // Sprite Objects
     exitKEY: null,
     exitBLOCK: null,
-    // Variables used to randomly place Key and Exit on Map
+    // Variables used for players
     playerROW: null,
     playerCOL: null,
+    enemy1ROW: null,
+    enemy1COL: null,
+    // Variables used to randomly place Key and Exit on Map
     exitCOL: null,
     exitROW: null,
     keyROW: null,
@@ -315,7 +320,7 @@ function loadHandler()
   if(assetsLoaded === assetsToLoad.length)
   {
     //Remove the load handler
-    image.removeEventListener("load", loadHandler, false);
+    image1.removeEventListener("load", loadHandler, false);
     //Build the level
     gameState = BUILD_MAP;
   }
@@ -491,23 +496,41 @@ function createOtherObjects()
   timerMessage.text = "";
   messages.push(timerMessage);
 
+  // Enemy Player Object. Randomly placed
+  enemy1 = Object.create(spriteObject);
+  enemy1.sourceX = 128;
+  enemy1.sourceY = 192;
+  enemy1.width = 48;
+  enemy1.height = 48;
+  // Randomly choose the X and Y for the Enemy - Restricts placement to only FLOOR
+  do {
+      gameVar.enemy1ROW = gameVar.randomBetween(0,ROWS);
+      gameVar.enemy1COL = gameVar.randomBetween(0,COLUMNS);
+      console.log("do while Enemy loop. Row & Col Parameter Passed In: " + gameVar.enemy1ROW + " " + gameVar.enemy1COL + ". Occupied value: " + gameVar.grid[gameVar.enemy1ROW][gameVar.enemy1COL].occupied);
+  } while (gameVar.grid[gameVar.enemy1ROW][gameVar.enemy1COL].occupied);
+  // Position Sprite on EMPTY tile
+  enemy1.x = gameVar.enemy1COL * SIZE + 8;
+  enemy1.y = gameVar.enemy1ROW * SIZE + 8;
+  enemy1.key = false;     // Variable to store if carrying Key;
+  sprites.push(enemy1);
+
   // Game Player Object. Randomly placed
-      player = Object.create(spriteObject);
-      player.sourceX = 192;
-      player.sourceY = 0;
-      player.width = 48;
-      player.height = 48;
-      // Randomly choose the X and Y for the Player - Restricts placement to only FLOOR
-      do {
-          gameVar.playerROW = gameVar.randomBetween(0,ROWS);
-          gameVar.playerCOL = gameVar.randomBetween(0,COLUMNS);
-          console.log("do while PLAYER loop. Row & Col Parameter Passed In: " + gameVar.playerROW + " " + gameVar.playerCOL + ". Occupied value: " + gameVar.grid[gameVar.playerROW][gameVar.playerCOL].occupied);
-      } while (gameVar.grid[gameVar.playerROW][gameVar.playerCOL].occupied);
-      // Position Sprite on EMPTY tile
-      player.x = gameVar.playerCOL * SIZE + 8;
-      player.y = gameVar.playerROW * SIZE + 8;
-      player.key = false;     // Variable to store if carrying Key;
-      sprites.push(player);
+  player = Object.create(spriteObject);
+  player.sourceX = 192;
+  player.sourceY = 0;
+  player.width = 48;
+  player.height = 48;
+  // Randomly choose the X and Y for the Player - Restricts placement to only FLOOR
+  do {
+      gameVar.playerROW = gameVar.randomBetween(0,ROWS);
+      gameVar.playerCOL = gameVar.randomBetween(0,COLUMNS);
+      console.log("do while PLAYER loop. Row & Col Parameter Passed In: " + gameVar.playerROW + " " + gameVar.playerCOL + ". Occupied value: " + gameVar.grid[gameVar.playerROW][gameVar.playerCOL].occupied);
+  } while (gameVar.grid[gameVar.playerROW][gameVar.playerCOL].occupied);
+  // Position Sprite on EMPTY tile
+  player.x = gameVar.playerCOL * SIZE + 8;
+  player.y = gameVar.playerROW * SIZE + 8;
+  player.key = false;     // Variable to store if carrying Key;
+  sprites.push(player);
 }
 
 function playGame()
@@ -613,13 +636,13 @@ function playGame()
     }
 
   //Collisions with boxes
-  for(var i = 0; i < boxes.length; i++)
+  for(let i = 0; i < boxes.length; i++)
   {
     blockRectangle(player, boxes[i]);
   }
 
   //Collisions with diamonds
-  for(var i = 0; i < diamonds.length; i++)
+  for(let i = 0; i < diamonds.length; i++)
   {
     var diamond = diamonds[i];
 
@@ -691,7 +714,7 @@ function render()
 	  {
         drawingSurface.drawImage
         (
-           image,
+           image1,
            sprite.sourceX, sprite.sourceY,
            sprite.sourceWidth, sprite.sourceHeight,
            Math.floor(sprite.x), Math.floor(sprite.y),
@@ -704,7 +727,7 @@ function render()
   //Display the game messages
   if(messages.length !== 0)
   {
-    for(var i = 0; i < messages.length; i++)
+    for(let i = 0; i < messages.length; i++)
     {
       var message = messages[i];
       if(message.visible)
@@ -741,8 +764,8 @@ function playAudio() {
 function startGame() {
     console.log("startGame Function");
     // Initialize Grid Variable
-    for (i=0; i<ROWS; i++){
-		for (j=0; j<COLUMNS; j++) {
+    for (let i=0; i<ROWS; i++){
+		for (let j=0; j<COLUMNS; j++) {
 			gameVar.grid[i][j] = Object.create(gameVar.mapCell);
             gameVar.grid[i][j].rowID = i;
 			gameVar.grid[i][j].colID = j;
